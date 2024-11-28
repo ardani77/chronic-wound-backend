@@ -1,0 +1,7 @@
+venv/
+instance/
+
+__pycache__
+mongobackups
+tests
+hello.py
