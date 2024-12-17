@@ -1,4 +1,6 @@
+import json
 import time
+import bson
 import pymongo
 from flask import current_app, g
 from flask.cli import with_appcontext
@@ -29,44 +31,37 @@ def delete_histori_kajian(id):
 
 def create_histori_kajian(request):
     data = {
-               "id_treatment": int(request.form["id_treatment"]),
-               "id_perawat": int(request.form["id_perawat"]),
-               "id_wound_inspection": int(request.form["id_wound_inspection"]),
+               "id_treatment": ObjectId(request.form["id_treatment"]),
+               "id_perawat": ObjectId(request.form["id_perawat"]),
+               "id_wound_inspection": ObjectId(request.form["id_wound_inspection"]),
                "created_at": time.strftime("%d/%m/%Y %H:%M:%S")
-            #    "created_at": '${currentDate}'
-        #        currentDate: {
-        # "created_at": { '$type': "timestamp" }
-        #    }
            }
     insert_to_collection("histori_kajian", data)
     return "Berhasil input histori kajian baru"
 
-def get_histori_kajian_by_id(histori_kajian_id):
+def get_histori_kajian_by_id(id_histori_kajian):
     filter = [
-    {
-        '$match': {
-            '_id': ObjectId(histori_kajian_id)
+        {
+            '$match': {
+                '_id': ObjectId(id_histori_kajian)
+            }
+        }, {
+            '$lookup': {
+                'from': 'wound_inspection', 
+                'localField': 'id_wound_inspection', 
+                'foreignField': '_id', 
+                'as': 'wound_inspection'
+            }
         }
-    }, {
-        # '$lookup': {
-        #     'from': 'image', 
-        #     'localField': 'image_id', 
-        #     'foreignField': '_id', 
-        #     'pipeline': [
-        #         {
-        #             '$lookup': {
-        #                 'from': 'wound_annotation', 
-        #                 'localField': 'wound_annotation_id', 
-        #                 'foreignField': '_id', 
-        #                 'as': 'wound_annotation'
-        #             }
-        #         }
-        #     ], 
-        #     'as': 'image'
-        # }
-    }]
-    data = aggregate_to_collection("histori_kajian",filter)
+    ]
+    # print(filter)
+    data = aggregate_to_collection("histori_kajian", filter)
+    # print("data1:", data)
+    # print("testing")
     data = json.loads(bson.json_util.dumps(list(data)))
+    # print("data2:", data)
+    data = data[0]
+    # print("data3:", data)
     if len(data)==0:
         raise Exception("Histori kajian tidak ditemukan")
     return data
