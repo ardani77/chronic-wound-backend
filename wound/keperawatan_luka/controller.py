@@ -3,12 +3,22 @@ from flask import Blueprint, request, Response
 from wound.model import db_pemeriksaan,db_kajian, db_histori_kajian, db_treatment, db_tujuan_perawatan
 import json
 
+from wound.model.wound_group import db_wound_area
+
 bp = Blueprint('keperawatan_luka-controller', __name__, url_prefix='/')
 
 @bp.route("v1/pemeriksaan-kesehatan/",methods=["POST"])
 def create_pemeriksaan_kesehatan():
     try:
        return db_pemeriksaan.create_pemeriksaan_kesehatan(request)
+    except Exception as ex:
+        print(ex)
+        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
+    
+@bp.route("v1/pemeriksaan-kesehatan/<id_pemeriksaan_kesehatan>",methods=["GET"])
+def get_pemeriksaan_kesehatan_by_id(id_pemeriksaan_kesehatan):
+    try:
+       return db_pemeriksaan.get_pemeriksaan_kesehatan_by_id(id_pemeriksaan_kesehatan)
     except Exception as ex:
         print(ex)
         return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
@@ -81,6 +91,30 @@ def create_tujuan_perawatan():
 def get_tujuan_perawatan_by_id(id_tujuan_perawatan):
     try:
         return db_tujuan_perawatan.get_tujuan_perawatan_by_id(id_tujuan_perawatan)
+    except Exception as ex:
+        print(ex)
+        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
+    
+@bp.route("v1/wound_area/<id_wound_area>", methods=["GET"])
+def get_wound_area_by_id(id_wound_area):
+    try:
+        return db_wound_area.get_wound_area_by_id(id_wound_area)
+    except Exception as ex:
+        print(ex)
+        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
+    
+@bp.route("v1/wound_area/", methods=["POST"])
+def create_wound_area():
+    try:
+        return db_wound_area.create_wound_area(request)
+    except Exception as ex:
+        print(ex)
+        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
+    
+@bp.route("v1/wound_area/", methods=["GET"])
+def get_all_wound_area():
+    try:
+        return db_wound_area.get_all_wound_area()
     except Exception as ex:
         print(ex)
         return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)

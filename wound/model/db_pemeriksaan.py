@@ -42,3 +42,30 @@ def create_pemeriksaan_kesehatan(request):
            }
     row = insert_pemeriksaan_kesehatan(data)
     return "Berhasil input pemeriksaan kesehatan baru"
+
+def get_pemeriksaan_kesehatan_by_id(id_pemeriksaan_kesehatan):
+    filter = [
+        {
+            '$match': {
+                '_id': ObjectId(id_pemeriksaan_kesehatan)
+            }
+        }, {
+            '$lookup': {
+                'from': 'pemeriksaan_kesehatan', 
+                'localField': 'id_pemeriksaan_kesehatan', 
+                'foreignField': '_id', 
+                'as': 'pemeriksaan_kesehatan'
+            }
+        }
+    ]
+    # print(filter)
+    data = aggregate_to_collection("pemeriksaan_kesehatan", filter)
+    # print("data1:", data)
+    # print("testing")
+    data = json.loads(bson.json_util.dumps(list(data)))
+    # print("data2:", data)
+    data = data[0]
+    # print("data3:", data)
+    if len(data)==0:
+        raise Exception("Histori kajian tidak ditemukan")
+    return data

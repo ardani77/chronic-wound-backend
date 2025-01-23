@@ -18,7 +18,19 @@ def create_wound_inspection(request):
     if len(check2) == 0:
         raise Exception("Image tidak ditemukan")
     check2=check2[0]
-    nullable = {"wound_area_score":"string", "wound_depth_score":"string", "wound_edge_score": "string", "wound_undermining_score": "string", "wound_necrotic_type_score": "string","wound_necrotic_amount_score":"string","wound_exudate_type_score":"string","wound_exudate_amount_score":"string","wound_surrounding_skin_score":"string","wound_peripheral_edema_score":"string","wound_peripheral_induration_score":"string","wound_granulation_score":"string","wound_epithelialization_score":"string"}
+    nullable = {"wound_area_score":"string", 
+                "wound_depth_score":"string", 
+                "wound_edge_score": "string", 
+                "wound_undermining_score": "string", 
+                "wound_necrotic_type_score": "string",
+                "wound_necrotic_amount_score":"string",
+                "wound_exudate_type_score":"string",
+                "wound_exudate_amount_score":"string",
+                "wound_surrounding_skin_score":"string",
+                "wound_peripheral_edema_score":"string",
+                "wound_peripheral_induration_score":"string",
+                "wound_granulation_score":"string",
+                "wound_epithelialization_score":"string"}
     for param in nullable.keys():
         if request.form.get(param)!='""' and request.form.get(param)!="" and request.form.get(param)!="''" and request.form.get(param)!=None:
             if nullable[param]=="string":
@@ -86,7 +98,7 @@ def get_wound_inspection_by_id(wound_inspection_id):
                     '$lookup': {
                         'from': 'wound_annotation', 
                         'localField': 'wound_annotation_id', 
-                        'foreignField': '_id', 
+                        'foreignField': '_id',
                         'as': 'wound_annotation'
                     }
                 }
@@ -99,3 +111,10 @@ def get_wound_inspection_by_id(wound_inspection_id):
     if len(data)==0:
         raise Exception("Kajian luka tidak ditemukan")
     return data
+
+# {
+#   from: 'user',
+#   localField: 'patient_id',
+#   foreignField: '_id',
+#   as: 'user'
+# }

@@ -66,13 +66,13 @@ def get_one_patient(patient_id):
         print(ex)
         return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
 
-#@bp.route("v1/patient/healthcare_staff/<healthcare_staff_id>",methods = ["GET"])
-#def get_all_patient_by_healthcare_staff_id(healthcare_staff_id):
-#    try:
-#        return json.dumps(db_user_new.get_all_patient_by_healthcare_staff_id(healthcare_staff_id))
-#    except Exception as ex:
-#        print(ex)
-#        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
+@bp.route("v1/patient/healthcare_staff/<healthcare_staff_id>",methods = ["GET"])
+def get_all_patient_by_healthcare_staff_id(healthcare_staff_id):
+   try:
+       return json.dumps(db_user_new.get_all_patient_by_healthcare_staff_id(healthcare_staff_id))
+   except Exception as ex:
+       print(ex)
+       return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
 
 #@bp.route("v1/patient",methods=["GET"])
 #def get_all_pasien():
