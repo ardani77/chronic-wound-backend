@@ -84,37 +84,38 @@ def get_wound_inspection_by_patient_id(patient_id):
 
 def get_wound_inspection_by_id(wound_inspection_id):
     filter = [
-    {
-        '$match': {
-            '_id': ObjectId(wound_inspection_id)
-        }
-    }, {
-        '$lookup': {
-            'from': 'image', 
-            'localField': 'image_id', 
-            'foreignField': '_id', 
-            'pipeline': [
-                {
-                    '$lookup': {
-                        'from': 'wound_annotation', 
-                        'localField': 'wound_annotation_id', 
-                        'foreignField': '_id',
-                        'as': 'wound_annotation'
+        {
+            '$match': {
+                '_id': ObjectId(wound_inspection_id)
+            }
+        }, {
+            '$lookup': {
+                'from': 'image', 
+                'localField': 'image_id', 
+                'foreignField': '_id', 
+                'as': 'image', 
+                'pipeline': [
+                    {
+                        '$lookup': {
+                            'from': 'wound_annotation', 
+                            'localField': 'wound_annotation_id', 
+                            'foreignField': '_id', 
+                            'as': 'wound_annotation'
+                        }
                     }
-                }
-            ], 
-            'as': 'image'
+                ]
+            }
+        }, {
+            '$lookup': {
+                'from': 'user', 
+                'localField': 'patient_id', 
+                'foreignField': '_id', 
+                'as': 'user'
+            }
         }
-    }]
+    ]
     data = aggregate_to_collection("wound_inspection",filter)
     data = json.loads(bson.json_util.dumps(list(data)))
     if len(data)==0:
         raise Exception("Kajian luka tidak ditemukan")
     return data
-
-# {
-#   from: 'user',
-#   localField: 'patient_id',
-#   foreignField: '_id',
-#   as: 'user'
-# }

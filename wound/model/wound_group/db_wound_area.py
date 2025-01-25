@@ -51,25 +51,16 @@ def get_wound_area_by_id(id_wound_area):
             }
         }
     ]
-    # print(filter)
     data = aggregate_to_collection("wound_area", filter)
-    # print("data1:", data)
-    # print("testing")
     data = json.loads(bson.json_util.dumps(list(data)))
-    # print("data2:", data)
     data = data[0]
-    # print("data3:", data)
     if len(data)==0:
         raise Exception("Wound Area tidak ditemukan")
     return data
 
 def get_all_wound_area():
     data = get_wound_area()
-    print("data1:", data)
     data = json.loads(bson.json_util.dumps(list(data)))
-    print("data2:", data)
-    # data = data[0]
-    # print("data3:", data)
     if len(data)==0:
         raise Exception("Wound area tidak ditemukan")
     return data
