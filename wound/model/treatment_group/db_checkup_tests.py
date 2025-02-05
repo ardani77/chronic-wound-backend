@@ -23,32 +23,32 @@ def get_one_checkup_tests_dict(id: ObjectId) -> dict: # return: dict | None
     })
     return checkup_tests_dict
 
-def create_checkup_tests(request: Request, id: ObjectId) -> dict:
-    data = {
-        '_id': id,
-        'blood_pressure': request.form['blood_pressure'] if 'blood_pressure' in request.form else None,
-        'heart_rate': request.form['heart_rate'] if 'heart_rate' in request.form else (request.form['pulse_rate'] if 'pulse_rate' in request.form else None),
-        'pulse_rate': request.form['pulse_rate'] if 'pulse_rate' in request.form else (request.form['heart_rate'] if 'heart_rate' in request.form else None),
-        'tension_level_id': (int(request.form['tension_level_id']) if request.form['tension_level_id'].isdigit() else 0) if 'tension_level_id' in request.form else 0,
-        'body_temperature': (Decimal128(round(Decimal(request.form['body_temperature']), 2)) if string_h.is_decimal(request.form['body_temperature']) else None) if 'body_temperature' in request.form else None,
-        'body_temperature_unit_id': (int(request.form['body_temperature_unit_id']) if request.form['body_temperature_unit_id'].isdigit() else 0) if 'body_temperature_unit_id' in request.form else 0,
-        'abpi': (Decimal128(round(Decimal(request.form['abpi']), 2)) if string_h.is_decimal(request.form['abpi']) else None) if 'abpi' in request.form else None,
-        'medical_history': request.form['medical_history'] if 'medical_history' in request.form else None
-    }
-    # No need, because they have the same ID
-    # new_checkup_tests_id = insert_to_collection("checkup_tests", data).inserted_id
-    insert_to_collection("checkup_tests", data)
+# def create_checkup_tests(request: Request, id: ObjectId) -> dict:
+#     data = {
+#         '_id': id,
+#         'blood_pressure': request.form['blood_pressure'] if 'blood_pressure' in request.form else None,
+#         'heart_rate': request.form['heart_rate'] if 'heart_rate' in request.form else (request.form['pulse_rate'] if 'pulse_rate' in request.form else None),
+#         'pulse_rate': request.form['pulse_rate'] if 'pulse_rate' in request.form else (request.form['heart_rate'] if 'heart_rate' in request.form else None),
+#         'tension_level_id': (int(request.form['tension_level_id']) if request.form['tension_level_id'].isdigit() else 0) if 'tension_level_id' in request.form else 0,
+#         'body_temperature': (Decimal128(round(Decimal(request.form['body_temperature']), 2)) if string_h.is_decimal(request.form['body_temperature']) else None) if 'body_temperature' in request.form else None,
+#         'body_temperature_unit_id': (int(request.form['body_temperature_unit_id']) if request.form['body_temperature_unit_id'].isdigit() else 0) if 'body_temperature_unit_id' in request.form else 0,
+#         'abpi': (Decimal128(round(Decimal(request.form['abpi']), 2)) if string_h.is_decimal(request.form['abpi']) else None) if 'abpi' in request.form else None,
+#         'medical_history': request.form['medical_history'] if 'medical_history' in request.form else None
+#     }
+#     # No need, because they have the same ID
+#     # new_checkup_tests_id = insert_to_collection("checkup_tests", data).inserted_id
+#     insert_to_collection("checkup_tests", data)
     
-    # diabetes_tests_dict = dict(db_diabetes_tests._create_diabetes_tests(request, new_checkup_tests_id))
-    # db_diabetes_tests._create_diabetes_tests(request, new_checkup_tests_id)
-    # checkup_tests_dict = get_one_checkup_tests_dict(new_checkup_tests_id)
-    # checkup_tests_dict.update({
-    #     'diabetes_tests': diabetes_tests_dict
-    # })
-    db_diabetes_tests.create_diabetes_tests(request, id)
-    checkup_tests_dict = get_one_checkup_tests_dict(id)
-    return checkup_tests_dict
-    # return Response(response=bson.json_util.dumps(result_dict), status=201, mimetype="application/json")
+#     # diabetes_tests_dict = dict(db_diabetes_tests._create_diabetes_tests(request, new_checkup_tests_id))
+#     # db_diabetes_tests._create_diabetes_tests(request, new_checkup_tests_id)
+#     # checkup_tests_dict = get_one_checkup_tests_dict(new_checkup_tests_id)
+#     # checkup_tests_dict.update({
+#     #     'diabetes_tests': diabetes_tests_dict
+#     # })
+#     db_diabetes_tests.create_diabetes_tests(request, id)
+#     checkup_tests_dict = get_one_checkup_tests_dict(id)
+#     return checkup_tests_dict
+#     # return Response(response=bson.json_util.dumps(result_dict), status=201, mimetype="application/json")
 
 def get_all_checkup_tests(request: Request) -> Response:
     available_keys = columns

@@ -10,14 +10,22 @@ def create_wound_inspection(request):
     check = json.loads(bson.json_util.dumps(list(check)))
     if len(check) == 0:
         raise Exception("Pasien tidak ditemukan")
-    data = {
-        "patient_id" : ObjectId(request.form["patient_id"])
-    }
+    # data = {
+    #     "patient_id" : ObjectId(request.form["patient_id"])
+    # }
     check2 = get_from_collection("image",{"_id": ObjectId(request.form["image_id"])})
     check2 = json.loads(bson.json_util.dumps(list(check2)))
     if len(check2) == 0:
         raise Exception("Image tidak ditemukan")
     check2=check2[0]
+    check3  = get_from_collection("healthcare_staff_info",{"user_id":ObjectId(request.form["healthcare_staff_id"])})
+    check3 = json.loads(bson.json_util.dumps(list(check3)))
+    if len(check3) == 0:
+        raise Exception("Perawat tidak ditemukan")
+    data = {
+        "patient_id" : ObjectId(request.form["patient_id"]),
+        "healthcare_staff_id" : ObjectId(request.form["healthcare_staff_id"])
+    }
     nullable = {"wound_area_score":"string", 
                 "wound_depth_score":"string", 
                 "wound_edge_score": "string", 
@@ -45,8 +53,8 @@ def create_wound_inspection(request):
             data[param] = None
     data["image_id"] = []
     data["image_id"].append(ObjectId(check2["_id"]["$oid"]))
-    insert_to_collection("wound_inspection",data)
-    return "Berhasil menambah kajian baru"
+    data = insert_to_collection("wound_inspection",data)
+    return data.inserted_id
 
 def get_wound_inspection_by_patient_id(patient_id):
     check  = get_from_collection("patient_info",{"user_id":ObjectId(patient_id)})
@@ -110,7 +118,15 @@ def get_wound_inspection_by_id(wound_inspection_id):
                 'from': 'user', 
                 'localField': 'patient_id', 
                 'foreignField': '_id', 
-                'as': 'user'
+                'as': 'user',
+                'pipeline': [
+                    {
+                        '$project': {
+                            '_id': 0,  # Hilangkan _id jika tidak diperlukan
+                            'name': 1  # Pastikan hanya field 'name' yang diambil
+                        }
+                    }
+                ]
             }
         }
     ]

@@ -97,72 +97,72 @@ def get_one_medical_checkup_dict(id: ObjectId) -> dict: # return: dict | None
     # })
     return result
 
-def create_medical_checkup(request: Request) -> Response:
-    ids_not_found = []
-    invalid_columns = []
-    # request_form_IDs = {}
-    request_header_IDs = {}
-    treatment_dict: dict = None
-    new_id = ObjectId()
-    if 'Treatment-Id' in request.headers:
-        if len(request.headers['Treatment-Id']) == 0:
-        #     treatment_dict = bson.json_util.loads(db_treatment.create_treatment(request))
-            treatment_dict = db_treatment.create_treatment(request, new_id)
-        else:
-            treatment_document = db_treatment.get_one_treatment_dict(ObjectId(request.headers['Treatment-Id']))
-            if treatment_document is None:
-                ids_not_found.append('treatment_id')
-    else:
-    #     treatment_dict = bson.json_util.loads(db_treatment.create_treatment(request))
-        treatment_dict = db_treatment.create_treatment(request, new_id)
-    request_header_IDs = service_h.change_request_IDs_to_ObjectId(dict(request.headers), medical_checkup.id_keys)
-    # request_form_IDs = service_h.change_request_IDs_to_ObjectId(request.form, id_keys)
-    date: datetime.date = None
-    if 'date' in request.form:
-        if len(request.form['date']) == 0:
-            date = None
-        else:
-            try:
-                date = str(datetime.datetime.strptime(request.form['date'], "%Y-%m-%d").date())
-            except:
-                invalid_columns.append('date')
-    else:
-        date = str(datetime.datetime.now().date())
-    patient_document = db_patient_info.get_one_patient_info({'user_id': request_header_IDs['Patient-Id']})
-    if patient_document is None:
-        ids_not_found.append('patient_id')
-    healthcare_staff_document = db_healthcare_staff_info.get_one_healthcare_staff_info({'user_id': request_header_IDs['Healthcare-Staff-Id']})
-    if healthcare_staff_document is None:
-        ids_not_found.append('healthcare_staff_id')
-    if len(ids_not_found) > 0 or len(invalid_columns) > 0:
-        db_treatment.delete_treatment(request, new_id)
-        return Response(response=json.dumps({
-            'message': "Please check invalid form inputs",
-            'IDs_not_found': ids_not_found,
-            'invalid_columns': invalid_columns
-        }), status=400 if len(invalid_columns) > 0 else 404, mimetype="application/json")
-    data = {
-        '_id': new_id,
-        'treatment_id': treatment_dict['_id'] if treatment_dict is not None else request_header_IDs['Treatment-Id'],
-        'date': date,
-        'healthcare_staff_id': request_header_IDs['Healthcare-Staff-Id'],
-        'wound_type_id': (int(request.form['wound_type_id']) if request.form['wound_type_id'].isdigit() else 0) if 'wound_type_id' in request.form else 0,
-        'treatment_type_id': (int(request.form['treatment_type_id']) if request.form['treatment_type_id'].isdigit() else 0) if 'treatment_type_id' in request.form else 0
-    }
-    # data.update(request_header_IDs)
-    new_medical_checkup_id: ObjectId = insert_to_collection("medical_checkup", data).inserted_id
-    # checkup_tests_request = []
-    # checkup_tests_available_keys = db_checkup_tests.columns[1:] + db_diabetes_tests.columns[1:]
-    # for key in request.form:
-    #     if key in checkup_tests_available_keys:
-    #         checkup_tests_request.append(key)
-    # db_checkup_tests._create_checkup_tests(checkup_tests_request, new_medical_checkup_id)
-    db_checkup_tests.create_checkup_tests(request, new_medical_checkup_id)
-    result = get_one_medical_checkup_dict(new_medical_checkup_id)
-    # result.update({
-    #     'treatment': treatment_dict
-    # })
-    return Response(response=bson.json_util.dumps(result), status=201, mimetype="application/json")
+# def create_medical_checkup(request: Request) -> Response:
+#     ids_not_found = []
+#     invalid_columns = []
+#     # request_form_IDs = {}
+#     request_header_IDs = {}
+#     treatment_dict: dict = None
+#     new_id = ObjectId()
+#     if 'Treatment-Id' in request.headers:
+#         if len(request.headers['Treatment-Id']) == 0:
+#         #     treatment_dict = bson.json_util.loads(db_treatment.create_treatment(request))
+#             treatment_dict = db_treatment.create_treatment(request, new_id)
+#         else:
+#             treatment_document = db_treatment.get_one_treatment_dict(ObjectId(request.headers['Treatment-Id']))
+#             if treatment_document is None:
+#                 ids_not_found.append('treatment_id')
+#     else:
+#     #     treatment_dict = bson.json_util.loads(db_treatment.create_treatment(request))
+#         treatment_dict = db_treatment.create_treatment(request, new_id)
+#     request_header_IDs = service_h.change_request_IDs_to_ObjectId(dict(request.headers), medical_checkup.id_keys)
+#     # request_form_IDs = service_h.change_request_IDs_to_ObjectId(request.form, id_keys)
+#     date: datetime.date = None
+#     if 'date' in request.form:
+#         if len(request.form['date']) == 0:
+#             date = None
+#         else:
+#             try:
+#                 date = str(datetime.datetime.strptime(request.form['date'], "%Y-%m-%d").date())
+#             except:
+#                 invalid_columns.append('date')
+#     else:
+#         date = str(datetime.datetime.now().date())
+#     patient_document = db_patient_info.get_one_patient_info({'user_id': request_header_IDs['Patient-Id']})
+#     if patient_document is None:
+#         ids_not_found.append('patient_id')
+#     healthcare_staff_document = db_healthcare_staff_info.get_one_healthcare_staff_info({'user_id': request_header_IDs['Healthcare-Staff-Id']})
+#     if healthcare_staff_document is None:
+#         ids_not_found.append('healthcare_staff_id')
+#     if len(ids_not_found) > 0 or len(invalid_columns) > 0:
+#         db_treatment.delete_treatment(request, new_id)
+#         return Response(response=json.dumps({
+#             'message': "Please check invalid form inputs",
+#             'IDs_not_found': ids_not_found,
+#             'invalid_columns': invalid_columns
+#         }), status=400 if len(invalid_columns) > 0 else 404, mimetype="application/json")
+#     data = {
+#         '_id': new_id,
+#         'treatment_id': treatment_dict['_id'] if treatment_dict is not None else request_header_IDs['Treatment-Id'],
+#         'date': date,
+#         'healthcare_staff_id': request_header_IDs['Healthcare-Staff-Id'],
+#         'wound_type_id': (int(request.form['wound_type_id']) if request.form['wound_type_id'].isdigit() else 0) if 'wound_type_id' in request.form else 0,
+#         'treatment_type_id': (int(request.form['treatment_type_id']) if request.form['treatment_type_id'].isdigit() else 0) if 'treatment_type_id' in request.form else 0
+#     }
+#     # data.update(request_header_IDs)
+#     new_medical_checkup_id: ObjectId = insert_to_collection("medical_checkup", data).inserted_id
+#     # checkup_tests_request = []
+#     # checkup_tests_available_keys = db_checkup_tests.columns[1:] + db_diabetes_tests.columns[1:]
+#     # for key in request.form:
+#     #     if key in checkup_tests_available_keys:
+#     #         checkup_tests_request.append(key)
+#     # db_checkup_tests._create_checkup_tests(checkup_tests_request, new_medical_checkup_id)
+#     db_checkup_tests.create_checkup_tests(request, new_medical_checkup_id)
+#     result = get_one_medical_checkup_dict(new_medical_checkup_id)
+#     # result.update({
+#     #     'treatment': treatment_dict
+#     # })
+#     return Response(response=bson.json_util.dumps(result), status=201, mimetype="application/json")
 
 def get_all_medical_checkups(request: Request) -> Response:
     available_keys = columns
