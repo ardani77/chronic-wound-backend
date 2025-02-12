@@ -74,20 +74,3 @@ def get_all_patient_by_healthcare_staff_id(healthcare_staff_id):
        print(ex)
        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
 
-#@bp.route("v1/patient",methods=["GET"])
-#def get_all_pasien():
-#    try:
-#       return db_user_new.get_all_patient(request)
-#    except Exception as ex:
-#        print(ex)
-#        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
-#    
-#@bp.route("v1/perawat",methods=["GET"])
-#def get_all_perawat():
-#    try:
-#       return db_user.get_all_perawat(request)
-#    except Exception as ex:
-#        print(ex)
-#        return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
-#    return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
-

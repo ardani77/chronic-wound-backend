@@ -108,6 +108,21 @@ def get_all_wound_history_by_patient_id(patient_id):
                     }
                 ]
             }
+        }, {
+            '$lookup': {
+                'from': 'wound_inspection', 
+                'localField': 'wound_inspection_id', 
+                'foreignField': '_id', 
+                'as': 'wound_inspection',
+                'pipeline': [
+                    {
+                        '$project': {
+                            '_id': 0, 
+                            'image_id': 1
+                        }
+                    }
+                ]
+            }
         }
     ]
     data = aggregate_to_collection("wound_history", filter)

@@ -68,10 +68,6 @@ def create_medical_checkup(request):
                 data[param] = float(request.form[param])
         else:
             data[param] = None
-    # data = {
-    #     "created_at" : time.strftime("%d/%m/%Y %H:%M:%S"),
-    #     "updated_at" : time.strftime("%d/%m/%Y %H:%M:%S"),
-    # }
     data = insert_medical_checkup(data)
     return data.inserted_id
 

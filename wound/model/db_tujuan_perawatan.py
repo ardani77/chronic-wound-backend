@@ -34,9 +34,6 @@ def create_tujuan_perawatan(request):
     check = json.loads(bson.json_util.dumps(list(check)))
     if len(check) == 0:
         raise Exception("Pasien tidak ditemukan")
-    # data = {
-    #     "patient_id" : ObjectId(request.form["patient_id"])
-    # }
     check2  = get_from_collection("healthcare_staff_info",{"user_id":ObjectId(request.form["healthcare_staff_id"])})
     check2 = json.loads(bson.json_util.dumps(list(check2)))
     if len(check2) == 0:
@@ -73,37 +70,79 @@ def create_tujuan_perawatan(request):
                     raise Exception(f"Format {param} harus berupa array JSON yang valid")
         else:
             data[param] = None
-    # data = {
-    #     "created_at" : time.strftime("%d/%m/%Y %H:%M:%S"),
-    #     "updated_at" : time.strftime("%d/%m/%Y %H:%M:%S"),
-    # }
     data = insert_tujuan_perawatan(data)
     return data.inserted_id
 
 def get_tujuan_perawatan_by_id(tujuan_perawatan_id):
     filter = [
-    {
-        '$match': {
-            '_id': ObjectId(tujuan_perawatan_id)
+        {
+            '$match': {
+                '_id': ObjectId(tujuan_perawatan_id)
+            }
+        }, {
+            '$lookup': {
+                'from': 'user', 
+                'localField': 'patient_id', 
+                'foreignField': '_id', 
+                'as': 'patient', 
+                'pipeline': [
+                    {
+                        '$lookup': {
+                            'from': 'patient_info', 
+                            'localField': '_id', 
+                            'foreignField': 'user_id', 
+                            'as': 'patient_info', 
+                            'pipeline': [
+                                {
+                                    '$project': {
+                                        '_id': 0, 
+                                        'registration_id': 1
+                                    }
+                                }
+                            ]
+                        }
+                    }, {
+                        '$project': {
+                            '_id': 0, 
+                            'name': 1, 
+                            'patient_info': 1
+                        }
+                    }
+                ]
+            }
+        }, {
+            '$lookup': {
+                'from': 'user', 
+                'localField': 'healthcare_staff_id', 
+                'foreignField': '_id', 
+                'as': 'healthcare_staff', 
+                'pipeline': [
+                    {
+                        '$lookup': {
+                            'from': 'healthcare_staff_info', 
+                            'localField': '_id', 
+                            'foreignField': 'user_id', 
+                            'as': 'healthcare_staff_info', 
+                            'pipeline': [
+                                {
+                                    '$project': {
+                                        '_id': 0, 
+                                        'nip': 1
+                                    }
+                                }
+                            ]
+                        }
+                    }, {
+                        '$project': {
+                            '_id': 0, 
+                            'name': 1, 
+                            'healthcare_staff_info': 1
+                        }
+                    }
+                ]
+            }
         }
-    }, {
-        # '$lookup': {
-        #     'from': 'image', 
-        #     'localField': 'image_id', 
-        #     'foreignField': '_id', 
-        #     'pipeline': [
-        #         {
-        #             '$lookup': {
-        #                 'from': 'wound_annotation', 
-        #                 'localField': 'wound_annotation_id', 
-        #                 'foreignField': '_id', 
-        #                 'as': 'wound_annotation'
-        #             }
-        #         }
-        #     ], 
-        #     'as': 'image'
-        # }
-    }]
+    ]
     data = aggregate_to_collection("tujuan_perawatan",filter)
     data = json.loads(bson.json_util.dumps(list(data)))
     if len(data)==0:

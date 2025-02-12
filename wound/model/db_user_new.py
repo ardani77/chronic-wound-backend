@@ -351,35 +351,6 @@ def get_all_patient(request):
     return data
 
 def insert_patient_to_healthcare_staff(reqeust):
-    # patient = get_from_collection("user",{"_id":ObjectId(reqeust.form["patient_id"])})
-    # patient = json.loads(bson.json_util.dumps(list(patient)))
-    # if len(patient)==0:
-    #     raise Exception(f"pasien dengan id pasien {reqeust.form['patient_id']} tidak ditemukan")
-    # patient=patient[0]
-    # healthcare_staff = get_from_collection("user",{"_id":ObjectId(reqeust.form["healthcare_staff_id"])})
-    # healthcare_staff = json.loads(bson.json_util.dumps(list(healthcare_staff)))
-    # if len(healthcare_staff)==0:
-    #     raise Exception(f"perawat dengan id perawat {reqeust.form['healthcare_staff_id']} tidak ditemukan")
-    # healthcare_staff = healthcare_staff[0]
-    # patient_info = get_from_collection("patient_info",{"user_id":ObjectId(patient["_id"]["$oid"])})
-    # patient_info = json.loads(bson.json_util.dumps(list(patient_info)))
-    # if len(patient_info)==0:
-    #     raise Exception(f"user dengan id pasien {reqeust.form['patient_id']} bukan pasien")
-    # patient_info = patient_info[0]
-    # healthcare_staff_info = get_from_collection("healthcare_staff_info",{"user_id":ObjectId(healthcare_staff["_id"]["$oid"])})
-    # healthcare_staff_info = json.loads(bson.json_util.dumps(list(healthcare_staff_info)))
-    # if len(healthcare_staff_info)==0:
-    #     raise Exception(f"user dengan id perawat {reqeust.form['healthcare_staff_id']} bukan perawat")
-    # healthcare_staff_info = healthcare_staff_info[0]
-    # if {"$oid": reqeust.form["healthcare_staff_id"]} in patient_info["healthcare_staff_id"]:
-    #     raise Exception(f"pasien dengan id {reqeust.form['patient_id']} sudah ada di dalam list perawat")
-    # patient_info["healthcare_staff_id"].append(ObjectId(reqeust.form["healthcare_staff_id"]))
-    # healthcare_staff_info["patient_id"].append(ObjectId(reqeust.form["patient_id"]))
-    # # update_from_collection("patient_info", ObjectId(patient_info["_id"]['$oid']),{"$set":{"healthcare_staff_id":patient_info["healthcare_staff_id"]}})
-    # # update_from_collection("healthcare_staff_info",ObjectId(healthcare_staff_info["_id"]["$oid"]),{"$set":{"patient_id":healthcare_staff_info["patient_id"]}})
-    # update_from_collection("patient_info", patient_info["_id"]["$oid"], {"healthcare_staff_id": patient_info["healthcare_staff_id"]})
-    # update_from_collection("healthcare_staff_info", healthcare_staff_info["_id"]["$oid"], {"patient_id": healthcare_staff_info["patient_id"]})
-    # return "Berhasil menambah pasien ke list perawat"
     patient = get_from_collection("user", {"_id": ObjectId(reqeust.form["patient_id"])})
     patient = json.loads(bson.json_util.dumps(list(patient)))
     if len(patient) == 0:
@@ -425,60 +396,6 @@ def insert_patient_to_healthcare_staff(reqeust):
     update_from_collection("healthcare_staff_info", healthcare_staff_info["_id"]["$oid"], {"patient_id": healthcare_staff_info["patient_id"]})
 
     return "Berhasil menambah pasien ke list perawat"
-
-#def get_all_patient_by_healthcare_staff_id(healthcare_staff_id):
-#    filter = [
-#    {
-#        '$lookup': {
-#            'from': 'patient_info', 
-#            'localField': '_id', 
-#            'foreignField': 'user_id', 
-#            'as': 'patient_info'
-#        }
-#    }, {
-#        '$match': {
-#            'patient_info.healthcare_staff_id': {
-#                '$elemMatch': {
-#                    '$in': [
-#                        ObjectId(healthcare_staff_id)
-#                    ]
-#                }
-#            }
-#        }
-#    },{
-#        '$addFields': {
-#            'usia': {
-#                '$cond': {
-#                    'if': {
-#                        '$ne': [
-#                            '$date_of_birth', None
-#                        ]
-#                    }, 
-#                    'then': {
-#                        '$floor': {
-#                            '$divide': [
-#                                {
-#                                    '$subtract': [
-#                                        {
-#                                            '$toDate': datetime.utcnow()
-#                                        }, {
-#                                            '$toDate': '$date_of_birth'
-#                                        }
-#                                    ]
-#                                }, 31536000000
-#                            ]
-#                        }
-#                    }, 
-#                    'else': None
-#                }
-#            }
-#        }
-#    }]
-#    data = aggregate_to_collection("user",filter)
-#    data = json.loads(bson.json_util.dumps(list(data)))
-#    if len(data)==0:
-#        raise Exception("Perawat ini tidak memiliki pasien")
-#    return data
 
 def get_one_patient(patient_id):
     filter = [
@@ -533,20 +450,6 @@ def get_one_patient(patient_id):
     return data
 
 def get_one_healthcare_staff(healthcare_staff_id):
-#     filter = [
-#     {
-#         '$match': {
-#             '_id': ObjectId('652d674a9d200eafb791ae8e')
-#         }
-#     }, {
-#         '$lookup': {
-#             'from': 'healthcare_staff_info', 
-#             'localField': '_id', 
-#             'foreignField': 'user_id', 
-#             'as': 'healthcare_staff_info'
-#         }
-#     }
-# ]
     filter = [
     {
         '$match': {

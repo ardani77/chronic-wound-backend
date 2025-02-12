@@ -7,7 +7,7 @@ from wound.model.wound_group import db_wound_area
 
 bp = Blueprint('keperawatan_luka-controller', __name__, url_prefix='/')
 
-@bp.route("v1/medical_checkup/",methods=["POST"])
+@bp.route("v1/medical_checkup",methods=["POST"])
 def create_medical_checkup():
     try:
         return json.dumps({"medical_checkup_id" : str(db_pemeriksaan.create_medical_checkup(request)) })
@@ -47,7 +47,7 @@ def get_kajian_baru_by_id_pasien(id_pasien):
         print(ex)
         return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
     
-@bp.route("v1/wound_history/", methods=["POST"])
+@bp.route("v1/wound_history", methods=["POST"])
 def create_wound_history():
     try:
         return json.dumps({"message" : str(db_histori_kajian.create_wound_history(request)) })
@@ -87,7 +87,7 @@ def get_treatment_by_id(id_treatment):
         print(ex)
         return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
     
-@bp.route("v1/tujuan_perawatan/", methods=["POST"])
+@bp.route("v1/tujuan_perawatan", methods=["POST"])
 def create_tujuan_perawatan():
     try:
         return json.dumps({"tujuan_perawatan_id" : str(db_tujuan_perawatan.create_tujuan_perawatan(request)) })
@@ -103,7 +103,7 @@ def get_tujuan_perawatan_by_id(id_tujuan_perawatan):
         print(ex)
         return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
     
-@bp.route("v1/inventaris/", methods=["POST"])
+@bp.route("v1/inventaris", methods=["POST"])
 def create_inventaris():
     try:
         return json.dumps({"inventaris_id" : str(db_inventaris.create_inventaris(request)) })
@@ -119,7 +119,7 @@ def get_inventaris_by_id(id_inventaris):
         print(ex)
         return Response(response = json.dumps({"message" : f"{ex}"}), mimetype="application/json", status=500)
     
-@bp.route("v1/rekap_kunjungan/", methods=["POST"])
+@bp.route("v1/rekap_kunjungan", methods=["POST"])
 def create_rekap_kunjungan():
     try:
         return json.dumps({"rekap_kunjungan_id" : str(db_rekap_kunjungan.create_rekap_kunjungan(request)) })
