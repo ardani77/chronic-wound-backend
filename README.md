@@ -1,12 +1,7 @@
-# semnas
-Source code for [Seminar Nasional Matematika 8](http://fmipa.unj.ac.id/snm8/)..
+# Chronic Wound Assesment Application
+Chronic Wound Assesment Application v.2.0
 
-If you want to run from your own computer type "flask run" from root app but setup mongodb database beforehand. Change the config semnas/settings.cfg..
+Chronic Wound Assesment Application, is an Android-Based Wound Assessment Application Integrated with the Wound Care Clinic Information System, this version is focused in wound care management described in the docs. The final result of this study is a wound assessment application that assists nurses in documenting the wound healing process and enables patients to track their own healing progress.
 
-The root Python app is on semnas/snm8.wsgi. 
-
-# Dependency
-Flask & MongoDB
-
-# Warning
-The model parts of this source is yet to follow proper MVC framework
+- application code: [https://github.com/ardani77/chronic-wound](https://github.com/ardani77/chronic-wound)
+- Web service: [https://github.com/ardani77/chronic-wound-backend](https://github.com/ardani77/chronic-wound-backend)
