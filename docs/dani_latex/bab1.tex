@@ -1,0 +1,76 @@
+%!TEX root = ./template-skripsi.tex
+%-------------------------------------------------------------------------------
+% 								BAB I
+% 							LATAR BELAKANG
+%-------------------------------------------------------------------------------
+
+\chapter{PENDAHULUAN}
+
+\section{Latar Belakang Masalah}
+
+Lebih dari 13 juta orang di seluruh dunia menderita luka kronis setiap tahun. Jika luka kronis tidak sembuh dalam waktu lama, maka akan memperburuk kualitas hidup pasien dan keluarganya, yang mengakibatkan penyebaran infeksi atau bahkan komplikasi yang mengancam jiwa. Diagnosis, pengobatan, dan manajemen luka kronis yang efektif sangat penting dalam praktik klinis. Namun, penyebab luka kronis dan faktor yang mempengaruhi penyembuhan luka cukup kompleks dan beragam. Dalam proses diagnosis, pengobatan dan manajemen luka kronis, dokter dan perawat perlu memiliki pemahaman menyeluruh serta kelengkapan rekam medis, manajemen yang efektif dan pemantauan kondisi fisik umum pasien secara tepat waktu, laporan pemeriksaan laboratorium, penilaian dan pengobatan luka fraksional. \citep{wang2018new}. Berikut data luka kronis diabetes mellitus secara global berdasarkan DALYs.
+
+\begin{table}[H]
+	\caption{Diabetes Mellitus DALYs (\textit{disability-adjusted life year}) secara global \citep{worldhealthorganization}}
+	\label{diabetes_mellitus}\begin{center}
+	\begin{tabular}{@{} |p{3cm}|p{2cm}|p{7cm}| @{}}
+		\hline
+		\textbf{Tahun} & \textbf{\textit{Rank}} & \textbf{\textit{Diabetes Mellitus}} \\
+		\hline
+		2000 & 14 & 38,5 juta \\
+		\hline
+		2010 & 11 & 52,7 juta \\
+		\hline
+		2019 & 9 & 70,4 juta \\
+		\hline
+	\end{tabular}
+	\end{center}
+\end{table}
+
+Dapat kita lihat dari data di atas, DALYs dari diabetes mellitus meningkat lebih dari 80\% antara tahun 2000 dan 2019. Hal ini menyebabkan peningkatan jumlah pasien luka kronis di seluruh dunia. Tidak diragukan lagi kehidupan orang-orang setelah terjangkit diabetes mellitus sangat terpengaruh. Banyak yang tidak dapat bekerja, menjadi bergantung pada orang lain dan tidak dapat mengejar kehidupan sosial yang aktif. Di negara berkembang, situasinya bahkan lebih buruk karena seluruh keluarga mungkin tidak memiliki penghasilan jika anggota aktif menderita luka kronis atau telah menjalani amputasi. \citep{setacci2020focusing}.
+
+Pada penelitian yang berjudul “\textit{A New Smart Mobile System for Chronic Wound Care Management}”, sistem ini memberikan solusi praktis untuk mengatasi tantangan utama dalam proses perawatan luka kronis, yang meliputi pengukuran luka yang tepat secara otomatis dan komposisi jaringan dasar luka, pemantauan penyembuhan luka berbentuk graph, penilaian luka standar dan komprehensif, dan manajemen dokumentasi kasus luka terintegrasi dalam konteks sistem informasi klinis rumah sakit umum yang ada. Tetapi model yang dikembangkan dalam deteksi tepi luka masih belum presisi. \citep{wang2018new}.
+
+Anuja Titus dan beberapa temannya berhasil mengembangkan algoritma baru berbasis mean shift berupa pewarnaan luka secara otomatis. Bagian kaki dapat diuraikan berdasarkan warna kulit, dan batas luka ditemukan menggunakan metode deteksi wilayah terhubung sederhana. Dalam batas luka, status penyembuhan selanjutnya dinilai berdasarkan model evaluasi warna merah-kuning-hitam. Selain itu, status penyembuhan dinilai secara kuantitatif, berdasarkan analisis tren catatan waktu untuk pasien tertentu. Tetapi algoritma ini memerlukan pengaturan parameter terlebih dahulu sehingga sensitifitas algoritma berubah terhadap data citra yang berbeda. Algoritma ini juga tidak bisa menyelesaikan kasus dimana lebih dari satu luka dalam satu gambar dan sensitifitas terhadap parameter berpengaruh secara signifikan terhadap hasil. \citep{titus2017smartphone}.
+
+Dalam penelitian \textit{medical imaging} sebelumnya oleh Aprilia Khairunnisa yang berjudul \textit{“Pengaruh Penggunaan Color Model Lab Dalam Kalibrasi Warna Luka Menggunakan Metode Segmentasi K-Means dan Mean Shift”}, penentuan nilai \textit{k} dan \textit{centroid} awal pada metode \textit{k-means} serta penentuan nilai \textit{w} dan \textit{sigma} pada metode \textit{mean shift} sangat berpengaruh pada hasil dari segmentasi kedua metode ini dimana nilai tersebut yang akan menentukan banyaknya jumlah \textit{cluster} yang dihasilkan. Salah satu kekurangan dari penelitian ini, yaitu penelitian yang dilakukan masih kurang komprehensif, di mana hasil dari penelitian ini belum dapat memperlihatkan pengaruh dari penggunaan model warna LAB pada proses segmentasi. \citep{khairunnisa2021pengaruh}. Pada payung penelitian yang sama juga sedang dilakukan penelitian oleh Muhamad Rizki untuk mendeteksi tepi luka menggunakan metode \textit{Active Contour} dan \textit{Gradient vector flow}. Tujuannya untuk mendapat hasil terbaik yang dapat mendeteksi objek luka pada \textit{medical imaging} luka kronis. \citep{rizki2022deteksi}.
+
+Pada buku yang berjudul \textit{“Rancang Bangun Aplikasi Mobile Android Sebagai Alat Deteksi Warna Dasar Luka Dalam Membantu Proses Pengkajian Luka Kronis Dengan Nekrosis”}, salah satu teknik pengkajian luka berdasarkan warna luka biasa dikenal dengan \textit{The RYB} (\textit{Red-Yellow-Black}) \textit{wound classification system}. Pada umumnya, metode tersebut digunakan dengan mengandalkan subyektifitas dari perawat luka. Hasil penelitian dalam buku ini ialah perawat mampu mengetahui perbedaan warna luka secara otomatis yang membantu proses pengkajian luka kronis dengan nekrosis. \citep{aryani2018}. Ratna Aryani bersama teman lainnya juga membuktikan bahwa debridement luka merupakan langkah penting dalam perawatan luka yang dilakukan oleh perawat, terutama untuk menghilangkan jaringan nekrotik dan merangsang munculnya jaringan granulasi. Luka tidak akan bisa sembuh selama luka hitam (jaringan nekrotik) belum diangkat. \citep{aryani2017autolytic}. Ia juga melakukan penelitian yang menghasilkan perban basah dapat mempercepat proses penyembuhan luka. Perawat harus mempertimbangkan untuk menggunakan balutan lembab daripada perawatan standar untuk meningkatkan proses penyembuhan. Namun, perawat harus menjaga luka dari kelembaban yang berlebihan karena akan menyebabkan kerusakan pada kulit di sekitar luka atau di dalam luka itu sendiri. \citep{aryani2016accelerating}.
+
+Banyak perawat kurang pengetahuan tentang manajemen luka dan penilaian luka, dan telah disarankan bahwa WAT (\textit{Wound Assessment Tool}) dapat memberikan dukungan bagi perawat di bidang ini. \citep{Greatrex-White2015wound}. Salah satu alat yang membantu perawat dalam proses mengkaji luka penyembuhan pasien adalah BWAT (\textit{Bates-Jensen Wound Assessment Tool}). Pada buku yang berjudul \textit{“Wound Care A Collaborative Practice Manual for Health Professionals”}, \textit{Bates-Jensen Wound Assessment Tool} (BWAT) dievaluasi sebagai bagian dari penilaian standar dan program pengobatan dalam studi multicenter prospektif hasil penyembuhan luka. Studi ini memberikan data tentang penggunaan skor BWAT untuk mengidentifikasi perawatan dan mengukur penyembuhan. Selain digunakan untuk mengidentifikasi perawatan luka tertentu, BWAT telah digunakan untuk menggambarkan karakteristik tekanan ulkus berulang pada orang dengan cedera tulang belakang karena ulkus ini belum dijelaskan dengan baik. Karena BWAT mengevaluasi beberapa karakteristik luka, ini sangat cocok untuk menggambarkan karakteristik luka yang spesifik pada populasi atau luka khusus. BWAT dimasukkan ke dalam beberapa \textit{electronic medical records}(EMR) organisasi perawatan kesehatan dan EMR cocok dalam hal entri data dan akses data untuk laporan. \citep{sussman2012}. Dalam penelitian sebelumnya yang sedang berjalan oleh Salsa Rahmadati juga merancang aplikasi pengkajian luka kronis berbasis \textit{Android} yang terfokus pada modul pengolahan citra. Penelitian tersebut dilakukan untuk mengumpulkan data \textit{ground truth} sehingga meningkatkan ketepatan akurasi pada penelitian selanjutnya. \citep{rahmadati2023aplikasi}.
+
+Berdasarkan tulisan di atas, penulis tertarik untuk melanjutkan penelitian \citep{rahmadati2023aplikasi} dalam pembuatan aplikasi skoring luka, dimana pada penelitian sebelumnya hanya terbatas pada skoring pengolahan data gambar. Penelitian ini diharapkan dapat membantu perawat dalam melakukan scoring luka kronis untuk mengidentifikasi tingkat penyembuhan luka pasien melalui bantuan aplikasi keperawatan luka (scoring luka). Penelitian ini sekaligus akan melanjutkan rangkaian penelitian sebelumnya terkait \textit{medical imaging} dan menjadi dasar untuk penelitian selanjutnya.
+
+\section{Rumusan Masalah}
+Rumusan masalah pada penelitian ini adalah “Bagaimana perancangan aplikasi pengkajian luka berbasis android dengan menggunakan \textit{Bates-Jensen Assessment Tool}?”
+
+\section{Pembatasan Masalah}
+Pembatasan masalah pada penelitian ini adalah pengkajian luka kronis menggunakan \textit{Bates-Jensen Wound Assessment Tool} (BWAT).
+
+\section{Tujuan Penelitian}
+Adapun tujuan dari penelitian ini adalah membuat aplikasi pengkajian luka berbasis android  dengan menggunakan \textit{Bates-Jensen Assessment Tool}.
+
+\section{Manfaat Penelitian}
+Penelitian ini diharapkan dapat mengoptimisasi pengkajian luka pada \textit{medical imaging} dari segi waktu dan ruang serta efisiensi. Penelitian ini juga diharapkan memberikan manfaat lainnya, antara lain:
+\begin{enumerate}
+	\item Bagi penulis
+		
+	Memperluas pengetahuan tentang \textit{medical imaging}, menambah pengalaman dalam \textit{programming}, memperoleh gelar sarjana di bidang Ilmu Komputer, serta menjadi media untuk penulis dalam mengaplikasikan ilmu yang didapatkan dari kampus.
+		
+	\item Bagi Program Studi Ilmu Komputer
+	 	
+	Penelitian ini dapat menjadi pembuka untuk penelitian di masa depan, dan dapat memberikan panduan bagi mahasiswa program studi Ilmu Komputer tentang perancangan aplikasi pengkajian luka berbasis \textit{Bates-Jensen}.
+	
+	\item Bagi Universitas Negeri Jakarta
+	 	
+	Menjadi evaluasi akademik program studi Ilmu Komputer dalam penyusunan skripsi sehingga dapat meningkatkan kualitas pendidikan dan lulusan program studi Ilmu Komputer di Universitas Negeri Jakarta.
+	 			
+\end{enumerate}
+
+
+% Baris ini digunakan untuk membantu dalam melakukan sitasi
+% Karena diapit dengan comment, maka baris ini akan diabaikan
+% oleh compiler LaTeX.
+\begin{comment}
+\bibliography{daftar-pustaka}
+\end{comment}
